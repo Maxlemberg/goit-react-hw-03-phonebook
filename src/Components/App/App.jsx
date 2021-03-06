@@ -5,6 +5,7 @@ import Filter from '../Filter';
 import ContactList from '../ContactList';
 import styles from './App.module.css';
 import PropTypes from 'prop-types';
+//import axios from 'axios';
 
 class App extends Component {
   static defaultProps = {
@@ -33,7 +34,10 @@ class App extends Component {
     number: '',
   };
 
+  //async componentDidMount() {
   componentDidMount() {
+    //const res = await axios.get('http://localhost:3000/contacts');
+    //this.setState({ contacts: res.data });
     const localInfo = localStorage.getItem('contacts');
     const parseContacts = JSON.parse(localInfo);
     if (parseContacts) {
@@ -63,12 +67,18 @@ class App extends Component {
     this.setState(prevState => {
       return { contacts: [contact, ...prevState.contacts] };
     });
+    // axios.post('http://localhost:3000/contacts', contact).then(({ data }) =>
+    //   this.setState(({ contacts }) => {
+    //     return { contacts: [data, ...contacts] };
+    //   }),
+    // );
     this.resetInput();
   };
 
   resetInput = () => {
     this.setState({ name: '', number: '' });
   };
+
   handleInput = e => {
     const { name, value } = e.currentTarget;
     this.setState({ [name]: value });
@@ -79,6 +89,12 @@ class App extends Component {
       contact => contact.id !== e.target.id,
     );
     this.setState({ contacts: [...arr] });
+    // const _id = e.target.id;
+    // axios.delete(`http://localhost:3000/contacts/${_id}`).then(() => {
+    //   this.setState(({ contacts }) => ({
+    //     contacts: contacts.filter(({ id }) => id !== _id),
+    //   }));
+    // });
   };
 
   render() {
